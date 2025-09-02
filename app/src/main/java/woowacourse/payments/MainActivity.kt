@@ -11,17 +11,24 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,11 +43,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             AndroidpaymentsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    GreetingPreview()
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding),
-//                    )
+                    GreetingPreview(
+                        modifier = Modifier.padding(innerPadding),
+                    )
                 }
             }
         }
@@ -101,18 +106,58 @@ fun ButtonHeart() {
 
 @Composable
 fun ButtonHeartText() {
+    var isFavorite: Boolean by remember { mutableStateOf(false) }
     Button(onClick = {
-        println("하트 좋아요 텍스트 버튼 클릭!")
+        isFavorite = !isFavorite
     }) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            when (isFavorite) {
+                true -> {
+                    Icon(
+                        imageVector = Icons.Filled.Favorite,
+                        contentDescription = "좋아요 icon 아이콘1",
+                        tint = Color.Red,
+                    )
+                }
+
+                false -> {
+                    Icon(
+                        imageVector = Icons.Filled.FavoriteBorder,
+                        contentDescription = "좋지않아요 icon 아이콘1",
+                        tint = Color.Black,
+                    )
+                }
+            }
+
+            when (isFavorite) {
+                true -> {
+                    Image(
+                        imageVector = Icons.Filled.Favorite,
+                        contentDescription = "좋아요 image 아이콘2",
+                        modifier = Modifier.size(24.dp),
+                        colorFilter = ColorFilter.tint(Color.Red),
+                    )
+                }
+                false -> {
+                    Image(
+                        imageVector = Icons.Filled.FavoriteBorder,
+                        contentDescription = "좋지않아요 image 아이콘2",
+                        modifier = Modifier.size(24.dp),
+                        colorFilter = ColorFilter.tint(Color.Black),
+                    )
+                }
+            }
+
+
             Icon(
-                imageVector = Icons.Filled.Favorite,
-                contentDescription = "좋아요 아이콘",
-                tint = Color.Black,
+                imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                contentDescription = if (isFavorite) "좋아요 아이콘3" else "좋지않아요 아이콘3",
+                tint = if (isFavorite) Color.Red else Color.Black,
             )
-            Text(text = "좋아요")
+
+            Text(text = if (isFavorite) "좋아요" else "좋지않아요")
         }
     }
 }
@@ -153,14 +198,14 @@ fun GreetingBox() {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun GreetingPreview(modifier: Modifier = Modifier) {
     AndroidpaymentsTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Greeting("Android")
-            TechCourseImage()
-            FavoriteIcon()
+            TechCourseImage(modifier)
+            FavoriteIcon(modifier)
             ButtonSave()
             ButtonHeart()
             ButtonHeartText()
