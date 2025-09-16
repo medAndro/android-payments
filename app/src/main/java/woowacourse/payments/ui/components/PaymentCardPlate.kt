@@ -44,6 +44,8 @@ fun PaymentCardPlate(
             )
         }
 
+    val paymentCardUiModel = paymentCardUiModel ?: PaymentCardUiModel.EMPTY
+
     Box(
         contentAlignment = Alignment.CenterStart,
         modifier =
@@ -51,7 +53,7 @@ fun PaymentCardPlate(
                 .shadow(8.dp)
                 .size(width = 208.dp, height = 124.dp)
                 .background(
-                    color = paymentCardUiModel?.cardCompanyUiModel?.plateColor ?: UnknownCard,
+                    color = paymentCardUiModel.cardCompanyUiModel.plateColor,
                     shape = RoundedCornerShape(5.dp),
                 ).semantics {
                     contentDescription = description
@@ -67,59 +69,59 @@ fun PaymentCardPlate(
                         shape = RoundedCornerShape(4.dp),
                     ),
         )
-        if (paymentCardUiModel != null) {
-            Text(
-                stringResource(paymentCardUiModel.cardCompanyUiModel.companyNameResId),
-                modifier =
-                    Modifier
-                        .padding(start = 14.dp, top = 10.dp)
-                        .align(Alignment.TopStart),
-                style =
-                    LocalTextStyle.current.copy(
-                        lineHeightStyle =
-                            LineHeightStyle(
-                                alignment = LineHeightStyle.Alignment.Center,
-                                trim = LineHeightStyle.Trim.Both,
-                            ),
-                    ),
-                fontSize = 12.sp,
-                letterSpacing = 0.1.em,
-                color = paymentCardUiModel.cardCompanyUiModel.textColor,
-            )
 
-            Text(
-                paymentCardUiModel.formattedCardNumber,
-                modifier =
-                    Modifier
-                        .padding(start = 13.dp, bottom = 28.dp)
-                        .align(Alignment.BottomStart),
-                fontSize = 12.sp,
-                letterSpacing = 0.17.em,
-                color = paymentCardUiModel.cardCompanyUiModel.textColor,
-            )
+        val cardCompanyUiModel = paymentCardUiModel.cardCompanyUiModel
+        Text(
+            stringResource(cardCompanyUiModel.companyNameResId),
+            modifier =
+                Modifier
+                    .padding(start = 14.dp, top = 10.dp)
+                    .align(Alignment.TopStart),
+            style =
+                LocalTextStyle.current.copy(
+                    lineHeightStyle =
+                        LineHeightStyle(
+                            alignment = LineHeightStyle.Alignment.Center,
+                            trim = LineHeightStyle.Trim.Both,
+                        ),
+                ),
+            fontSize = 12.sp,
+            letterSpacing = 0.1.em,
+            color = cardCompanyUiModel.textColor,
+        )
 
-            Text(
-                paymentCardUiModel.ownerName,
-                modifier =
-                    Modifier
-                        .padding(start = 13.dp, bottom = 10.dp)
-                        .align(Alignment.BottomStart),
-                fontSize = 12.sp,
-                letterSpacing = 0.1.em,
-                color = paymentCardUiModel.cardCompanyUiModel.textColor,
-            )
+        Text(
+            paymentCardUiModel.formattedCardNumber,
+            modifier =
+                Modifier
+                    .padding(start = 13.dp, bottom = 28.dp)
+                    .align(Alignment.BottomStart),
+            fontSize = 12.sp,
+            letterSpacing = 0.17.em,
+            color = cardCompanyUiModel.textColor,
+        )
 
-            Text(
-                paymentCardUiModel.formattedExpireDate,
-                modifier =
-                    Modifier
-                        .padding(end = 14.dp, bottom = 10.dp)
-                        .align(Alignment.BottomEnd),
-                fontSize = 12.sp,
-                letterSpacing = 0.1.em,
-                color = paymentCardUiModel.cardCompanyUiModel.textColor,
-            )
-        }
+        Text(
+            paymentCardUiModel.ownerName,
+            modifier =
+                Modifier
+                    .padding(start = 13.dp, bottom = 10.dp)
+                    .align(Alignment.BottomStart),
+            fontSize = 12.sp,
+            letterSpacing = 0.1.em,
+            color = cardCompanyUiModel.textColor,
+        )
+
+        Text(
+            paymentCardUiModel.formattedExpireDate,
+            modifier =
+                Modifier
+                    .padding(end = 14.dp, bottom = 10.dp)
+                    .align(Alignment.BottomEnd),
+            fontSize = 12.sp,
+            letterSpacing = 0.1.em,
+            color = cardCompanyUiModel.textColor,
+        )
     }
 }
 
